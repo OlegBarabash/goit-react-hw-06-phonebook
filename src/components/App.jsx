@@ -1,27 +1,31 @@
-import { useState, useEffect } from 'react';
 import { nanoid } from 'nanoid';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
 import { Container } from './App.styled.js';
+import { useSelector } from 'react-redux';
+import { getContacts } from 'redux/selectors';
 
-const LOCALSTORAGE_KEY = 'contactBoock';
+// const LOCALSTORAGE_KEY = 'contactBoock';
 
-const getInitialContacts = () => {
-  const savedContacts = localStorage.getItem(LOCALSTORAGE_KEY);
-  if (savedContacts !== null) {
-    return JSON.parse(savedContacts);
-  }
-  return [];
-};
+// const getInitialContacts = () => {
+//   const savedContacts = localStorage.getItem(LOCALSTORAGE_KEY);
+//   if (savedContacts !== null) {
+//     return JSON.parse(savedContacts);
+//   }
+//   return [];
+// };
 
 export const App = () => {
-  const [contacts, setContacts] = useState(getInitialContacts);
-  const [filter, setFilter] = useState('');
+  // const [contactsq, setContacts] = useState(getInitialContacts);
 
-  useEffect(() => {
-    localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(contacts));
-  }, [contacts]);
+  const setContacts = arr => console.log('setContacts => ', arr);
+
+  const contacts = useSelector(getContacts);
+
+  // useEffect(() => {
+  //   localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(contacts));
+  // }, [contacts]);
 
   const addContact = ({ name, number }) => {
     const isExist = contacts.find(
@@ -38,16 +42,16 @@ export const App = () => {
     ]);
   };
 
-  const onFind = name => {
-    const findName = name.toLowerCase();
-    setFilter(findName);
-  };
+  // const onFind = name => {
+  //   const findName = name.toLowerCase();
+  //   setFilter(findName);
+  // };
 
-  const filterResult = () => {
-    return contacts.filter(({ contactName }) =>
-      contactName.toLowerCase().includes(filter)
-    );
-  };
+  // const filterResult = () => {
+  //   return contacts.filter(({ contactName }) =>
+  //     contactName.toLowerCase().includes(filter)
+  //   );
+  // };
 
   const deleteContact = id => {
     setContacts(prevState => prevState.filter(cont => cont.id !== id));
@@ -62,8 +66,8 @@ export const App = () => {
       ) : (
         <>
           <h2>Contacts</h2>
-          <Filter onFilter={onFind} />
-          <ContactList contArr={filterResult()} onDelete={deleteContact} />
+          <Filter />
+          <ContactList onDelete={deleteContact} />
         </>
       )}
     </Container>
