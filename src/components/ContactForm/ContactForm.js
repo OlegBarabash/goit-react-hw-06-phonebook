@@ -7,6 +7,8 @@ import {
   Button,
   ErrorMsg,
 } from './ContactForm.styled';
+import { useDispatch } from 'react-redux';
+import { addContact } from 'redux/contactSlice';
 
 const SignupSchema = Yup.object().shape({
   name: Yup.string()
@@ -21,7 +23,10 @@ const SignupSchema = Yup.object().shape({
     .required('Required'),
 });
 
-export const ContactForm = ({ onAdd }) => {
+export const ContactForm = () => {
+  const dispatch = useDispatch();
+  const onAdd = data => dispatch(addContact(data));
+
   return (
     <Formik
       initialValues={{ name: '', number: '' }}
@@ -42,7 +47,7 @@ export const ContactForm = ({ onAdd }) => {
           <StyledField type="tel" name="number" />
           <ErrorMsg name="number" component="div" />
         </Label>
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Add Contact</Button>
       </StyledForm>
     </Formik>
   );

@@ -14,3 +14,9 @@ export const List = styled.ul`
   flex-direction: column;
   gap: 10px;
 `;
+
+export const DeleteBtn = styled.button`
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+`;
